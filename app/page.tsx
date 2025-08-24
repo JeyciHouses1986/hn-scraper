@@ -6,7 +6,6 @@ import FilterControls from "./components/FilterControls";
 import { Entry } from "@/lib/types";
 
 export default function Home() {
-  const [scrapedData, setScrapedData] = useState<Entry[]>([]);
   const [filteredData, setFilteredData] = useState<Entry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +22,6 @@ export default function Home() {
         }
         
         const data = await response.json();
-        setScrapedData(data);
         setFilteredData(data);
       } catch (error) {
         console.error('Error fetching data:', error);

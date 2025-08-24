@@ -17,7 +17,9 @@ const config: Config = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: '<rootDir>/tsconfig.jest.json',
+      tsconfig: {
+        jsx: 'react-jsx',
+      },
       useESM: false,
     }],
   },
