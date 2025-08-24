@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import * as cheerio from 'cheerio';
 import { Entry } from '@/lib/types';
+import { getFilteredData } from '@/lib/filters';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const filter = searchParams.get('filter') as 'long' | 'short' | 'all' || 'all';
+    
     const response = await fetch('https://news.ycombinator.com/');
     const html = await response.text();
     
@@ -30,7 +34,10 @@ export async function GET() {
       });
     });
     
-    return NextResponse.json(entries);
+    // Apply filtering
+    const filteredEntries = getFilteredData(entries, filter);
+    
+    return NextResponse.json(filteredEntries);
   } catch (error) {
     console.error('Scraping error:', error);
     return NextResponse.json({ error: 'Failed to scrape data' }, { status: 500 });
